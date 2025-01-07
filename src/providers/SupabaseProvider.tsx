@@ -10,12 +10,18 @@ interface SupabaseProviderProps {
 }
 
 const SupabaseProvider: React.FC<SupabaseProviderProps> = ({ children }) => {
-	const [supabaseClient] = useState(() =>
-		createClientComponentClient<Database>()
-	);
+	const [supabaseClient] = useState(() => {
+		const client = createClientComponentClient<Database>();
+		// Log the initialization but not the actual values
+		console.log('Supabase client initialized with URL:', !!process.env.NEXT_PUBLIC_SUPABASE_URL);
+		console.log('Anon key present:', !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+		return client;
+	});
 
 	return (
-		<SessionContextProvider supabaseClient={supabaseClient}>
+		<SessionContextProvider 
+			supabaseClient={supabaseClient}
+			initialSession={null}>
 			{children}
 		</SessionContextProvider>
 	);

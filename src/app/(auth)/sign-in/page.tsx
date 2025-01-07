@@ -11,7 +11,7 @@ import { useEffect } from "react";
 
 const SignIn = () => {
 	const supabaseClient = useSupabaseClient();
-	const { session } = useSessionContext();
+	const { session, isLoading, error: sessionError } = useSessionContext();
 
 	const router = useRouter();
 
@@ -20,6 +20,16 @@ const SignIn = () => {
 			router.push("/");
 		}
 	}, [session, router]);
+
+	useEffect(() => {
+		if (sessionError) {
+			console.error("Session error:", sessionError);
+		}
+	}, [sessionError]);
+
+	if (isLoading) {
+		return <div>Loading...</div>;
+	}
 
 	return (
 		<div className="grid grid-cols-2 items-center min-h-screen">
@@ -45,6 +55,22 @@ const SignIn = () => {
 								},
 							}}
 							theme="light"
+							redirectTo={`${window.location.origin}/`}
+							onlyThirdPartyProviders={false}
+							view="sign_in"
+							showLinks={true}
+							localization={{
+								variables: {
+									sign_up: {
+										email_label: "Email address",
+										password_label: "Create a Password",
+										button_label: "Sign up",
+										loading_button_label: "Creating account...",
+										social_provider_text: "Sign up with {{provider}}",
+										link_text: "Don't have an account? Sign up",
+									},
+								},
+							}}
 						/>
 					</div>
 				</div>

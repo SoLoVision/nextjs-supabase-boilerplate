@@ -12,14 +12,14 @@ export const metadata: Metadata = {
 	description: "Create your own AI SaaS",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="en">
-			<body className={font.className}>
+		<html lang="en" suppressHydrationWarning>
+			<body className={font.className} suppressHydrationWarning>
 				<ThemeProvider
 					attribute="class"
 					defaultTheme="light"
